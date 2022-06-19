@@ -1,0 +1,44 @@
+PASOS PARA ABRIR MI TRABAJO ENTREGABLE CON EXITO:
+1.- CREAMOS LA BASE DE DATOS EN SQL(XAMPP) USANDO MYSQL(phpmyadmin) CON EL SIGUIENTE CODIGO:
+
+-- creamos nuestra base de datos.
+CREATE DATABASE entregable;
+-- seleccionamos la base de datos con la que vamos a trabajar.
+USE entregable;
+-- creamos nuestras tablas.
+-- 		tabla padre
+CREATE TABLE asociado (
+   id int NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+   nombre varchar(50),  
+   apellido varchar(50),  
+   salario double,
+   aportes double
+);
+-- 		tabla hijo
+CREATE TABLE solicitud_credito (
+   id_a int NOT NULL,
+   fecha date,  
+   ncuotas int,  
+   monto double,  
+   taza double,
+   observaciones varchar(50),
+   estado varchar(50),
+   FOREIGN KEY(id_a) REFERENCES asociado(id)
+);
+-- 		tabla hijo
+CREATE TABLE soportes (
+   codigo int NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+   nombre varchar(50) ,  
+   contenido varchar(50),  
+   solicitud_sc int NOT NULL,
+   FOREIGN KEY(solicitud_sc) REFERENCES solicitud_credito(id_a)
+);
+-- 		tabla hijo
+CREATE TABLE cuota (
+   numero int NOT NULL AUTO_INCREMENT PRIMARY KEY,  
+   saldo double,  
+   capital double,  
+   intereses double,
+   prestamo_sc int NOT NULL,
+   FOREIGN KEY(prestamo_sc) REFERENCES solicitud_credito(id_a)
+)
